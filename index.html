@@ -32,6 +32,9 @@
           <input type="email" name="email" id="email" placeholder="Email Address" />
           <input type="submit" value="Sign Up" />
         </form>
+
+      <!-- Hidden iframe to submit to Google Form -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
   
       <!-- Footer -->
         <footer id="footer">
@@ -44,5 +47,18 @@
         </footer>
 
         <script src="assets/js/main.js"></script>
+        <script>
+          document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var email = document.getElementById('email').value;
+            var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScuAn4sMy4BlzOUYE-NMJMw41Y17TgIl_a4yKED4OUB29S_uA/viewform?usp=pp_url&entry.1045781291=example@gmail.com';
+            googleFormUrl = googleFormUrl.replace('example@gmail.com', email);
+            var iframe = document.getElementById('hidden_iframe');
+            iframe.src = googleFormUrl;
+            iframe.onload = function() {
+              alert('Email saved successfully!');
+            };
+          });
+        </script>
   </body>
 </html>
