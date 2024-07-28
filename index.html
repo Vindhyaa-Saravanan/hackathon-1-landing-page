@@ -52,12 +52,21 @@
           document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault();
             var email = document.getElementById('email').value;
-            var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScuAn4sMy4BlzOUYE-NMJMw41Y17TgIl_a4yKED4OUB29S_uA/viewform?usp=pp_url&entry.1045781291=example@gmail.com';
-            googleFormUrl = googleFormUrl.replace('example@gmail.com', email);
-            var iframe = document.getElementById('hidden_iframe');
-            iframe.src = googleFormUrl;
-            iframe.onload = function() {
-              alert('Email saved successfully!');
+            var googleFormActionUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScuAn4sMy4BlzOUYE-NMJMw41Y17TgIl_a4yKED4OUB29S_uA/formResponse'; // Form action URL
+            var formData = new FormData();
+            formData.append('entry.1045781291', email); // Replace 'entry.1045781291' with the correct field ID for your form
+    
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', googleFormActionUrl, true);
+            xhr.setRequestHeader('Accept', 'application/xml, text/xml, */*; q=0.01');
+            xhr.send(formData);
+    
+            xhr.onload = function() {
+              if (xhr.status === 200 || xhr.status === 0) {
+                alert('Email saved successfully!');
+              } else {
+                alert('There was a problem with the request.');
+              }
             };
           });
         </script>
